@@ -17,7 +17,10 @@ radius = 26.5654
 height = 14.3577
 
 [node name="Player" type="KinematicBody2D"]
+collision_mask = 8
 script = ExtResource( 1 )
+speed = Vector2( 800, 1400 )
+gravity = 4000.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.5, 0.5 )
