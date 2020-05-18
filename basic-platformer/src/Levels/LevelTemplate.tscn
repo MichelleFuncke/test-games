@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/Actors/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://asserts/tileset.tres" type="TileSet" id=2]
 [ext_resource path="res://src/Actors/Enemy.tscn" type="PackedScene" id=3]
 [ext_resource path="res://asserts/background.png" type="Texture" id=4]
+[ext_resource path="res://src/Objects/Coin.tscn" type="PackedScene" id=5]
 
 [node name="LevelTemplate" type="Node2D"]
 __meta__ = {
@@ -42,5 +43,14 @@ position = Vector2( 231.591, 175.798 )
 
 [node name="Camera2D" parent="Player" index="2"]
 limit_right = 2400
+
+[node name="Coin" parent="." instance=ExtResource( 5 )]
+position = Vector2( 910.757, 422.783 )
+
+[node name="Coin2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 824.987, 422.783 )
+
+[node name="Coin3" parent="." instance=ExtResource( 5 )]
+position = Vector2( 736.154, 422.783 )
 
 [editable path="Player"]
