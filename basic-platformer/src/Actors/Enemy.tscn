@@ -15,7 +15,7 @@ animations = [ {
 extents = Vector2( 41.9875, 32.4265 )
 
 [sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 46.5514, 9.04744 )
+extents = Vector2( 40.6859, 9.04744 )
 
 [node name="Enemy" type="KinematicBody2D"]
 scale = Vector2( 0.75, 0.75 )
