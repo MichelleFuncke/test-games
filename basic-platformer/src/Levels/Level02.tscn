@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/Actors/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://asserts/tileset.tres" type="TileSet" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://asserts/background.png" type="Texture" id=4]
 [ext_resource path="res://src/Objects/Coin.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/Objects/Portal2D.tscn" type="PackedScene" id=6]
-[ext_resource path="res://src/Levels/Level02.tscn" type="PackedScene" id=7]
 
 [node name="LevelTemplate" type="Node2D"]
 __meta__ = {
@@ -37,9 +36,6 @@ tile_data = PoolIntArray( 0, 0, 0, 29, 0, 0, 65536, 0, 0, 65565, 0, 0, 131072, 0
 [node name="Enemy" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1519.53, 511.297 )
 
-[node name="Enemy2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 2159.56, 500.449 )
-
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 231.591, 175.798 )
 
@@ -52,11 +48,7 @@ position = Vector2( 910.757, 422.783 )
 [node name="Coin2" parent="." instance=ExtResource( 5 )]
 position = Vector2( 824.987, 422.783 )
 
-[node name="Coin3" parent="." instance=ExtResource( 5 )]
-position = Vector2( 736.154, 422.783 )
-
 [node name="Portal2D" parent="." instance=ExtResource( 6 )]
 position = Vector2( 1109.2, 488.128 )
-next_scene = ExtResource( 7 )
 
 [editable path="Player"]
