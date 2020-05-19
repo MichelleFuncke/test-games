@@ -1,11 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://asserts/ui_theme.tres" type="Theme" id=1]
 [ext_resource path="res://asserts/background.png" type="Texture" id=2]
 [ext_resource path="res://src/UserInterface/ChangeSceneButton.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/UserInterface/PlayButton.gd" type="Script" id=4]
 [ext_resource path="res://src/UserInterface/QuitButton.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/UserInterface/QuitButton.gd" type="Script" id=6]
 [ext_resource path="res://src/UserInterface/Title.tscn" type="PackedScene" id=7]
 
 [node name="EndScreen" type="Control"]
@@ -39,27 +37,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PlayButton" type="Button" parent="Menu" instance=ExtResource( 3 )]
-margin_right = 290.0
-margin_bottom = 49.0
-size_flags_vertical = 3
+[node name="PlayButton" parent="Menu" instance=ExtResource( 3 )]
 text = "Play Again"
-script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 next_scene_path = "res://src/Screens/MainScreen.tscn"
 
-[node name="QuitButton" type="Button" parent="Menu" instance=ExtResource( 5 )]
+[node name="QuitButton" parent="Menu" instance=ExtResource( 5 )]
 margin_top = 53.0
-margin_right = 290.0
 margin_bottom = 102.0
-size_flags_vertical = 3
-text = "Quit"
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Title" parent="." instance=ExtResource( 7 )]
 anchor_top = 0.5
@@ -85,5 +69,3 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="button_up" from="Menu/PlayButton" to="Menu/PlayButton" method="_on_button_up"]
-[connection signal="button_up" from="Menu/QuitButton" to="Menu/QuitButton" method="_on_button_up"]
