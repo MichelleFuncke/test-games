@@ -4,10 +4,11 @@
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -68.0
-margin_top = 129.657
+margin_top = 162.071
 margin_right = 68.0
-margin_bottom = 143.657
-text = "My First Godot Game"
+margin_bottom = 176.071
+text = "Title"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

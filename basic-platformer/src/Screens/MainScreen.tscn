@@ -1,13 +1,15 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://src/UserInterface/PlayButton.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/UserInterface/ChangeSceneButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://asserts/background.png" type="Texture" id=2]
 [ext_resource path="res://src/UserInterface/Title.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/UserInterface/QuitButton.tscn" type="PackedScene" id=4]
+[ext_resource path="res://asserts/ui_theme.tres" type="Theme" id=5]
 
 [node name="MainScreen" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -23,6 +25,11 @@ __meta__ = {
 }
 
 [node name="Title" parent="." instance=ExtResource( 3 )]
+margin_left = -134.0
+margin_top = 121.553
+margin_right = 134.0
+margin_bottom = 152.553
+text = "My First Godot Game"
 
 [node name="Menu" type="VBoxContainer" parent="."]
 anchor_left = 0.5
@@ -38,5 +45,8 @@ __meta__ = {
 }
 
 [node name="PlayButton" parent="Menu" instance=ExtResource( 1 )]
+next_scene_path = "res://src/Levels/Level01.tscn"
 
 [node name="QuitButton" parent="Menu" instance=ExtResource( 4 )]
+margin_top = 53.0
+margin_bottom = 102.0

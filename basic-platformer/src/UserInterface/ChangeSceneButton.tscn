@@ -1,12 +1,12 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://src/UserInterface/QuitButton.gd" type="Script" id=1]
+[ext_resource path="res://src/UserInterface/PlayButton.gd" type="Script" id=1]
 
-[node name="QuitButton" type="Button"]
+[node name="ChangeSceneButton" type="Button"]
 margin_right = 290.0
 margin_bottom = 49.0
 size_flags_vertical = 3
-text = "Quit"
+text = "Play"
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
