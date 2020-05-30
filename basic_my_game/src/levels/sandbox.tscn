@@ -1,18 +1,25 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/actors/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/levels/MyTileSet.tres" type="TileSet" id=2]
+[ext_resource path="res://src/actors/Enemy_elf.tscn" type="PackedScene" id=3]
 
 [node name="sandbox" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 192, 288 )
+position = Vector2( 192, 320 )
 
 [node name="TileMap" type="TileMap" parent="."]
+z_index = 100
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 16, 16 )
 collision_use_kinematic = true
 collision_layer = 8
 collision_mask = 0
 format = 1
-tile_data = PoolIntArray( 1245191, 14, 0, 1245207, 14, 0, 1310727, 7, 0, 1310743, 7, 0, 1376263, 0, 0, 1376264, 0, 0, 1376265, 0, 0, 1376266, 0, 0, 1376267, 0, 0, 1376268, 0, 0, 1376269, 0, 0, 1376270, 0, 0, 1376271, 0, 0, 1376272, 0, 0, 1376273, 0, 0, 1376274, 0, 0, 1376275, 0, 0, 1376276, 0, 0, 1376277, 0, 0, 1376278, 0, 0, 1376279, 0, 0 )
+tile_data = PoolIntArray( 1245191, 14, 0, 1245217, 14, 0, 1310727, 7, 0, 1310743, 14, 0, 1310753, 7, 0, 1376263, 0, 0, 1376264, 0, 0, 1376265, 0, 0, 1376266, 0, 0, 1376267, 0, 0, 1376268, 0, 0, 1376269, 0, 0, 1376270, 0, 0, 1376271, 0, 0, 1376272, 0, 0, 1376273, 0, 0, 1376274, 0, 0, 1376275, 0, 0, 1376276, 0, 0, 1376277, 0, 0, 1376278, 0, 0, 1376279, 0, 0, 1376280, 0, 0, 1376281, 0, 0, 1376282, 0, 0, 1376283, 0, 0, 1376284, 0, 0, 1376285, 0, 0, 1376286, 0, 0, 1376287, 0, 0, 1376288, 0, 0, 1376289, 0, 0 )
+
+[node name="Enemy_elf" parent="." instance=ExtResource( 3 )]
+position = Vector2( 456, 320 )
+speed = Vector2( 40, 500 )
+max_health = 100
