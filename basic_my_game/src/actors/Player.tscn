@@ -129,6 +129,9 @@ tracks/0/keys = {
 [node name="Player" type="KinematicBody2D"]
 collision_mask = 8
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
 speed = Vector2( 100, 500 )
 gravity = 3000.0
 
@@ -143,3 +146,6 @@ shape = SubResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/damaged = SubResource( 22 )
+
+[node name="Position2D" type="Position2D" parent="."]
+position = Vector2( 11, 6 )

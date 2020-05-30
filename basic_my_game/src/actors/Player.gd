@@ -1,10 +1,20 @@
 extends Actor
 
+const FIREBALL = preload("res://src/objects/Fireball.tscn")
+
+
 func _physics_process(delta: float) -> void:
 	var direction: = get_direction()
 	_velocity = calculate_move_velocity(_velocity, direction, speed)
 	animate_sprite(_velocity)
+	attack_direction(_velocity)
 	_velocity = move_and_slide(_velocity, FLOOR_NORMAL) # we don't need to multiply by delta because move_and_slide
+	
+	if Input.is_action_just_pressed("ui_focus_next"):
+		var fireball = FIREBALL.instance()
+		fireball.set_fireball_direction(sign($Position2D.position.x))
+		get_parent().add_child(fireball)
+		fireball.position = $Position2D.global_position
 	
 func get_direction() -> Vector2:
 	return Vector2(
@@ -30,3 +40,11 @@ func animate_sprite(direction: Vector2) -> void:
 	else:
 		$AnimatedSprite.play("walk")
 		$AnimatedSprite.flip_h = direction.x < 0
+		
+func attack_direction(direction: Vector2) -> void:
+	if direction.x == 0:
+		pass
+	elif sign(direction.x) == sign($Position2D.position.x):
+		pass
+	else:
+		$Position2D.position.x *= -1
