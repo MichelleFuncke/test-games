@@ -133,7 +133,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
-speed = Vector2( 100, 500 )
+speed = Vector2( 100, 600 )
 gravity = 3000.0
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
@@ -150,6 +150,15 @@ position = Vector2( 11, 6 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/damaged = SubResource( 22 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 672
+limit_bottom = 176
+smoothing_enabled = true
+smoothing_speed = 10.0
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0

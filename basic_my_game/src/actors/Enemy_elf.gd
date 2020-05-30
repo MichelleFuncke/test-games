@@ -3,10 +3,8 @@ extends Actor
 export var score: = 100
 
 func _ready() -> void:
-	set_physics_process(false)
 	# Have to set it here or it uses the default of the Actor.gd
 	_health = max_health
-	#_velocity.x = -speed.x
 
 func _physics_process(delta: float) -> void:
 	_velocity.y += gravity * delta
@@ -35,7 +33,6 @@ func ledge_detection(direction: Vector2) -> void:
 
 
 func _on_screen_entered() -> void:
-	set_physics_process(true)
 	_velocity.x = -speed.x
 
 
