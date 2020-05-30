@@ -3,6 +3,7 @@ extends Actor
 func _physics_process(delta: float) -> void:
 	var direction: = get_direction()
 	_velocity = calculate_move_velocity(_velocity, direction, speed)
+	animate_sprite(_velocity)
 	_velocity = move_and_slide(_velocity, FLOOR_NORMAL) # we don't need to multiply by delta because move_and_slide
 	
 func get_direction() -> Vector2:
@@ -22,3 +23,10 @@ func calculate_move_velocity(
 	if direction.y == -1.0:
 		out.y = speed.y * direction.y
 	return out
+	
+func animate_sprite(direction: Vector2) -> void:
+	if direction.x == 0:
+		$AnimatedSprite.play("idle")
+	else:
+		$AnimatedSprite.play("walk")
+		$AnimatedSprite.flip_h = direction.x < 0
