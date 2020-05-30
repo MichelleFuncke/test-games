@@ -55,3 +55,12 @@ animation = "walk"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5 )
 shape = SubResource( 7 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2( 7, 0 )
+enabled = true
+cast_to = Vector2( 0, 17 )
+collision_mask = 8
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_screen_entered"]
