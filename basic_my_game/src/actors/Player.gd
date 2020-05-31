@@ -3,7 +3,14 @@ extends Actor
 const FIREBALL = preload("res://src/objects/Fireball.tscn")
 
 
+func _ready() -> void:
+	# Have to set it here or it uses the default of the Actor.gd
+	_health = max_health
+
 func _physics_process(delta: float) -> void:
+	if _is_dead == true || _is_damaged == true:
+		return
+
 	var direction: = get_direction()
 	_velocity = calculate_move_velocity(_velocity, direction, speed)
 	animate_sprite(_velocity)
@@ -34,13 +41,15 @@ func calculate_move_velocity(
 		out.y = speed.y * direction.y
 	return out
 	
+	
 func animate_sprite(direction: Vector2) -> void:
 	if direction.x == 0:
 		$AnimatedSprite.play("idle")
 	else:
 		$AnimatedSprite.play("walk")
 		$AnimatedSprite.flip_h = direction.x < 0
-		
+
+
 func attack_direction(direction: Vector2) -> void:
 	if direction.x == 0:
 		pass
@@ -48,3 +57,18 @@ func attack_direction(direction: Vector2) -> void:
 		pass
 	else:
 		$Position2D.position.x *= -1
+
+
+func _on_Timer_timeout() -> void:
+	queue_free()
+	# Maybe end the game
+	# get_tree().change_scene("TitleScreen.tscn")
+
+
+func _on_Damage_timeout() -> void:
+	_is_damaged = false
+
+
+func _on_Immune_timeout() -> void:
+	_is_immune = false
+	$AnimationPlayer.stop()
