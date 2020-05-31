@@ -15,7 +15,7 @@ func _on_hit(body: Node) -> void:
 		return
 
 	if "Enemy" in body.name:
-		body.take_damage(damage)
+		body.take_damage(damage, velocity)
 	queue_free()
 
 func _on_screen_exited() -> void:
