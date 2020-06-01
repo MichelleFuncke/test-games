@@ -32,9 +32,12 @@ func take_damage(damage: int, direction: Vector2) -> void:
 			
 func animate_damage(direction: Vector2) -> void:
 	get_node("AnimationPlayer").play("damaged")
+	
 	_velocity = bounce_velocity(_velocity, direction, bounce)
 	move_and_slide(_velocity)
 	$AnimatedSprite.flip_h = _velocity.x > 0
+	emit_signal("direction_changed", _velocity * -1.0)
+	
 	
 	
 func bounce_velocity(
