@@ -23,11 +23,6 @@ func _physics_process(delta: float) -> void:
 	animate_sprite(_velocity)
 	
 	_velocity.y = move_and_slide(_velocity, FLOOR_NORMAL).y
-	
-	# Added this because players could hide on enemies while they were immune and then take no damage
-	for item in $Area2D.get_overlapping_bodies():
-		if "Player" in item.name:
-			_on_Area2D_body_entered(item)
 
 
 func animate_sprite(direction: Vector2) -> void:

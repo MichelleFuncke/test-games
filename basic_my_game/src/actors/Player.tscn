@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://assets/sprites/characters.png" type="Texture" id=1]
 [ext_resource path="res://src/actors/Player.gd" type="Script" id=2]
@@ -206,6 +206,9 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.392157 ) ]
 }
 
+[sub_resource type="RectangleShape2D" id=24]
+extents = Vector2( 7, 11 )
+
 [node name="Player" type="KinematicBody2D"]
 z_index = 1
 collision_mask = 8
@@ -251,6 +254,13 @@ one_shot = true
 [node name="Immune_timer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="ObjectDetector" type="Area2D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ObjectDetector"]
+position = Vector2( 0, 5 )
+shape = SubResource( 24 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="Damage_timer" to="." method="_on_Damage_timeout"]
 [connection signal="timeout" from="Immune_timer" to="." method="_on_Immune_timeout"]

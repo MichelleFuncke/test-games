@@ -71,3 +71,8 @@ func _on_Damage_timeout() -> void:
 func _on_Immune_timeout() -> void:
 	_is_immune = false
 	$AnimationPlayer.stop()
+	
+	# Added this because players could hide on enemies while they were immune and then take no damage
+	for item in $ObjectDetector.get_overlapping_bodies():
+		if "Enemy" in item.name:
+			item._on_Area2D_body_entered(get_node("."))
