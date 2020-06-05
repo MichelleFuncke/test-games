@@ -36,8 +36,7 @@ func animate_damage(direction: Vector2) -> void:
 	_velocity = bounce_velocity(_velocity, direction, bounce)
 	move_and_slide(_velocity)
 	$AnimatedSprite.flip_h = _velocity.x > 0
-	emit_signal("direction_changed", _velocity * -1.0)
-	
+	emit_signal("direction_changed")
 	
 	
 func bounce_velocity(
@@ -45,10 +44,12 @@ func bounce_velocity(
 		attack_direction: Vector2,
 		impulse: float
 	) -> Vector2:
-	var out: = linear_velocity
-	out.y = -impulse# * sign(attack_direction.y)
-	#print(sign(attack_direction.x))
-	out.x = impulse * sign(attack_direction.x)
+	var out: = Vector2(0, 0)
+	var direction: = -1.0 if attack_direction.y < 0 else 1.0
+	out.y = -impulse * direction
+	
+	direction = -1.0 if attack_direction.x < 0 else 1.0
+	out.x = impulse * direction
 	
 	return out
 

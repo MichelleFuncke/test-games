@@ -1,11 +1,13 @@
 extends Actor
 
 const FIREBALL = preload("res://src/objects/Fireball.tscn")
+signal direction_changed
 
 
 func _ready() -> void:
 	# Have to set it here or it uses the default of the Actor.gd
 	_health = max_health
+	self.connect("direction_changed", self, "change_direction")
 
 func _physics_process(delta: float) -> void:
 	if _is_dead == true || _is_damaged == true:
@@ -14,7 +16,7 @@ func _physics_process(delta: float) -> void:
 	var direction: = get_direction()
 	_velocity = calculate_move_velocity(_velocity, direction, speed)
 	animate_sprite(_velocity)
-	attack_direction(_velocity)
+	
 	_velocity = move_and_slide(_velocity, FLOOR_NORMAL) # we don't need to multiply by delta because move_and_slide
 	
 	if Input.is_action_just_pressed("ui_focus_next"):
@@ -48,15 +50,12 @@ func animate_sprite(direction: Vector2) -> void:
 	else:
 		$AnimatedSprite.play("walk")
 		$AnimatedSprite.flip_h = direction.x < 0
+	emit_signal("direction_changed")
 
 
-func attack_direction(direction: Vector2) -> void:
-	if direction.x == 0:
-		pass
-	elif sign(direction.x) == sign($Position2D.position.x):
-		pass
-	else:
-		$Position2D.position.x *= -1
+func change_direction() -> void:
+	var direction: = -1.0 if $AnimatedSprite.flip_h else 1.0
+	$Position2D.position.x = abs($Position2D.position.x) * direction
 
 
 func _on_Timer_timeout() -> void:

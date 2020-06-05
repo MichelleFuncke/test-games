@@ -13,15 +13,14 @@ func _physics_process(delta: float) -> void:
 	if _is_dead == true || _is_damaged == true:
 		return
 	
-	_velocity.y += gravity * delta
-	if is_on_wall():
+	_velocity.y = gravity * delta
+	if is_on_wall() and is_on_floor():
 		_velocity.x *= -1.0
 	
-	if $RayCast2D.is_colliding() == false:
+	if $RayCast2D.is_colliding() == false and is_on_floor():
 		_velocity.x *= -1.0
 
 	animate_sprite(_velocity)
-	emit_signal("direction_changed", _velocity)
 	
 	_velocity.y = move_and_slide(_velocity, FLOOR_NORMAL).y
 
@@ -32,16 +31,17 @@ func animate_sprite(direction: Vector2) -> void:
 	else:
 		$AnimatedSprite.play("walk")
 		$AnimatedSprite.flip_h = direction.x < 0
+	emit_signal("direction_changed")
 
 
-func change_direction(direction: Vector2) -> void:
-	if sign(direction.x) != sign($RayCast2D.position.x):
-		$RayCast2D.position.x *= -1.0
+func change_direction() -> void:
+	var direction: = -1.0 if $AnimatedSprite.flip_h else 1.0
+	$RayCast2D.position.x = abs($RayCast2D.position.x) * direction
 
 
 func _on_screen_entered() -> void:
 	_velocity.x = -speed.x
-	emit_signal("direction_changed", _velocity)
+	animate_sprite(_velocity)
 
 
 func _on_Timer_timeout() -> void:
@@ -58,9 +58,8 @@ func _on_Damage_timeout() -> void:
 	if _is_dead == true:
 		_velocity.x = 0
 	elif _velocity.x != speed.x:
-		var direction: = -1.0 if $AnimatedSprite.flip_h else 1.0
+		var direction: = 1.0 if $AnimatedSprite.flip_h else -1.0
 		
 		_velocity.x = speed.x * direction
 		move_and_slide(_velocity)
 		animate_sprite(_velocity)
-		emit_signal("direction_changed", _velocity)

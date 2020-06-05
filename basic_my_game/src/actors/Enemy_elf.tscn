@@ -23,15 +23,15 @@ region = Rect2( 64, 64, 32, 32 )
 atlas = ExtResource( 1 )
 region = Rect2( 96, 64, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 1 )
 region = Rect2( 256, 64, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 1 )
 region = Rect2( 288, 64, 32, 32 )
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=8]
 animations = [ {
 "frames": [ SubResource( 1 ) ],
 "loop": false,
@@ -43,17 +43,16 @@ animations = [ {
 "name": "walk",
 "speed": 7.0
 }, {
-"frames": [ SubResource( 10 ), SubResource( 11 ) ],
+"frames": [ SubResource( 6 ), SubResource( 7 ) ],
 "loop": false,
 "name": "bounce_back",
 "speed": 7.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 8, 11 )
 
-[sub_resource type="Animation" id=8]
-resource_name = "damaged"
+[sub_resource type="Animation" id=10]
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimatedSprite:modulate")
@@ -92,7 +91,7 @@ tracks/2/keys = {
 "values": [ 0, 1 ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=11]
 resource_name = "dead"
 loop = true
 tracks/0/type = "value"
@@ -148,7 +147,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.392157 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.392157 ) ]
 }
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 8, 11 )
 
 [node name="Enemy_elf" type="KinematicBody2D"]
@@ -162,13 +161,13 @@ speed = Vector2( 50, 500 )
 max_health = 100
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 6 )
+frames = SubResource( 8 )
 animation = "bounce_back"
 frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5 )
-shape = SubResource( 7 )
+shape = SubResource( 9 )
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2( 7, 0 )
@@ -177,8 +176,8 @@ cast_to = Vector2( 0, 17 )
 collision_mask = 8
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/damaged = SubResource( 8 )
-anims/dead = SubResource( 13 )
+anims/damaged = SubResource( 10 )
+anims/dead = SubResource( 11 )
 anims/immune = SubResource( 12 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
@@ -192,7 +191,7 @@ collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2( 0, 5 )
-shape = SubResource( 9 )
+shape = SubResource( 13 )
 
 [node name="Damage_timer" type="Timer" parent="."]
 wait_time = 0.8
