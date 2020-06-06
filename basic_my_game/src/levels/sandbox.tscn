@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/actors/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/levels/MyTileSet.tres" type="TileSet" id=2]
 [ext_resource path="res://src/actors/Enemy_elf.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/objects/Crown.tscn" type="PackedScene" id=4]
 
 [node name="sandbox" type="Node2D"]
 __meta__ = {
@@ -31,3 +32,6 @@ speed = Vector2( 40, 500 )
 position = Vector2( 384, 77 )
 speed = Vector2( 40, 500 )
 max_health = 10
+
+[node name="Crown" parent="." instance=ExtResource( 4 )]
+position = Vector2( 176, 136 )
