@@ -1,4 +1,4 @@
-extends Actor
+extends ActorEnemy
 
 export var score: = 100
 export var damage: = 100
@@ -13,7 +13,7 @@ func _physics_process(delta: float) -> void:
 	if _is_dead == true || _is_damaged == true:
 		return
 	
-	_velocity.y = gravity * delta
+	_velocity.y = WorldData.GRAVITY * delta
 	if is_on_wall() and is_on_floor():
 		_velocity.x *= -1.0
 	
@@ -22,11 +22,11 @@ func _physics_process(delta: float) -> void:
 
 	animate_sprite(_velocity)
 	
-	_velocity.y = move_and_slide(_velocity, FLOOR_NORMAL).y
+	_velocity.y = move_and_slide(_velocity, WorldData.FLOOR_NORMAL).y
 
 
 func animate_sprite(direction: Vector2) -> void:
-	if direction.x == 0:
+	if direction.x == 0 || direction.y == 0:
 		$AnimatedSprite.play("idle")
 	else:
 		$AnimatedSprite.play("walk")
