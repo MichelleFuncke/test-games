@@ -45,6 +45,7 @@ func _on_screen_entered() -> void:
 
 
 func _on_Timer_timeout() -> void:
+	PlayerData.score += score
 	queue_free()
 
 

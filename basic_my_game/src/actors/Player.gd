@@ -59,6 +59,7 @@ func change_direction() -> void:
 
 
 func _on_Timer_timeout() -> void:
+	PlayerData.deaths += 1
 	queue_free()
 	# Maybe end the game
 	# get_tree().change_scene("TitleScreen.tscn")
