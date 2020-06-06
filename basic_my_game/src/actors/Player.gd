@@ -6,7 +6,6 @@ signal direction_changed
 
 func _ready() -> void:
 	# Have to set it here or it uses the default of the Actor.gd
-	_health = max_health
 	self.connect("direction_changed", self, "change_direction")
 
 func _physics_process(delta: float) -> void:
@@ -17,7 +16,7 @@ func _physics_process(delta: float) -> void:
 	_velocity = calculate_move_velocity(_velocity, direction, speed)
 	animate_sprite(_velocity)
 	
-	_velocity = move_and_slide(_velocity, FLOOR_NORMAL) # we don't need to multiply by delta because move_and_slide
+	_velocity = move_and_slide(_velocity, WorldData.FLOOR_NORMAL) # we don't need to multiply by delta because move_and_slide
 	
 	if Input.is_action_just_pressed("ui_focus_next"):
 		var fireball = FIREBALL.instance()
@@ -38,7 +37,7 @@ func calculate_move_velocity(
 	) -> Vector2:
 	var out: = linear_velocity
 	out.x = speed.x * direction.x
-	out.y += gravity * get_physics_process_delta_time() # this is the delta _process uses	
+	out.y += WorldData.GRAVITY * get_physics_process_delta_time() # this is the delta _process uses	
 	if direction.y == -1.0:
 		out.y = speed.y * direction.y
 	return out
