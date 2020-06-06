@@ -13,15 +13,26 @@ _global_script_classes=[ {
 "class": "Actor",
 "language": "GDScript",
 "path": "res://src/actors/Actor.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "ActorEnemy",
+"language": "GDScript",
+"path": "res://src/actors/Actor_Enemy.gd"
 } ]
 _global_script_class_icons={
-"Actor": ""
+"Actor": "",
+"ActorEnemy": ""
 }
 
 [application]
 
 config/name="basic_my_game"
 config/icon="res://icon.png"
+
+[autoload]
+
+PlayerData="*res://src/autoload/PlayerData.tscn"
+WorldData="*res://src/autoload/WorldData.tscn"
 
 [display]
 
