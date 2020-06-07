@@ -23,15 +23,15 @@ region = Rect2( 64, 64, 32, 32 )
 atlas = ExtResource( 1 )
 region = Rect2( 96, 64, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 1 )
 region = Rect2( 256, 64, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=7]
+[sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 1 )
 region = Rect2( 288, 64, 32, 32 )
 
-[sub_resource type="SpriteFrames" id=8]
+[sub_resource type="SpriteFrames" id=16]
 animations = [ {
 "frames": [ SubResource( 1 ) ],
 "loop": false,
@@ -43,13 +43,13 @@ animations = [ {
 "name": "walk",
 "speed": 7.0
 }, {
-"frames": [ SubResource( 6 ), SubResource( 7 ) ],
+"frames": [ SubResource( 14 ), SubResource( 15 ) ],
 "loop": false,
 "name": "bounce_back",
 "speed": 7.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=17]
 extents = Vector2( 8, 11 )
 
 [sub_resource type="Animation" id=10]
@@ -151,6 +151,7 @@ tracks/0/keys = {
 extents = Vector2( 8, 11 )
 
 [node name="Enemy_elf" type="KinematicBody2D"]
+z_index = 1
 collision_layer = 2
 collision_mask = 8
 script = ExtResource( 2 )
@@ -161,12 +162,12 @@ speed = Vector2( 50, 500 )
 max_health = 100
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 8 )
+frames = SubResource( 16 )
 animation = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5 )
-shape = SubResource( 9 )
+shape = SubResource( 17 )
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 position = Vector2( 7, 0 )
