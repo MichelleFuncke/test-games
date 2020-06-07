@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/levels/MyTileSet_NoCollisions.tres" type="TileSet" id=1]
+[ext_resource path="res://src/objects/FloatingPlatform.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 48, 8 )
+
+[node name="FloatingPlatform" type="StaticBody2D"]
+collision_layer = 24
+collision_mask = 0
+script = ExtResource( 2 )
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( -3, -2147483635, 0, -2, -1610612729, 0, -1, -2147483641, 0, -65536, -1610612729, 0, -65535, -2147483641, 0, -65534, -1610612723, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -8 )
+shape = SubResource( 1 )
+one_way_collision = true
+
+[node name="PassThroughTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+[connection signal="timeout" from="PassThroughTimer" to="." method="_on_timeout"]
