@@ -15,9 +15,15 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if _is_dead == true || _is_damaged == true:
 		return
-
+		
 	var is_jump_interrupted: = Input.is_action_just_released("jump") and _velocity.y < 0.0
 	is_on_ladder = ladder_count > 0
+	
+	if Input.is_action_just_pressed("move_down") and not is_on_ladder:
+		for item in $FloatingObjectDetector.get_overlapping_bodies():
+			item.get_node("PassThroughTimer").start()
+			item.set_collision_layer_bit(3, false)
+	
 	var direction: = get_direction()
 	_velocity = calculate_move_velocity(_velocity, direction, speed, is_jump_interrupted)
 	animate_sprite(_velocity)

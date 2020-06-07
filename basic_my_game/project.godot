@@ -77,6 +77,7 @@ move_down={
 2d_render/layer_2="enemies"
 2d_render/layer_3="coins"
 2d_render/layer_4="world"
+2d_render/layer_5="floating_world"
 
 [rendering]
 
