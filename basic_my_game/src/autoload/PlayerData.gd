@@ -5,6 +5,8 @@ signal player_died
 signal max_health_updated
 signal health_updated
 
+signal on_ladder
+
 var score: = 0 setget set_score
 var deaths: = 0 setget set_deaths
 var max_health: = 2000 setget set_max_health
@@ -31,3 +33,6 @@ func set_max_health(value: int) -> void:
 func set_health(value: int) -> void:
 	current_health = value
 	emit_signal("health_updated")
+	
+func set_on_ladder(value: bool) -> void:
+	emit_signal("on_ladder", value)

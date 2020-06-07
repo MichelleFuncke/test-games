@@ -3,17 +3,21 @@ extends Actor
 const FIREBALL = preload("res://src/objects/Fireball.tscn")
 signal direction_changed
 var is_on_ladder: = false
+var ladder_count: = 0
 
 
 func _ready() -> void:
 	# Have to set it here or it uses the default of the Actor.gd
 	self.connect("direction_changed", self, "change_direction")
+	PlayerData.connect("on_ladder", self, "_on_ladder_changed")
 
+# warning-ignore:unused_argument
 func _physics_process(delta: float) -> void:
 	if _is_dead == true || _is_damaged == true:
 		return
 
 	var is_jump_interrupted: = Input.is_action_just_released("jump") and _velocity.y < 0.0
+	is_on_ladder = ladder_count > 0
 	var direction: = get_direction()
 	_velocity = calculate_move_velocity(_velocity, direction, speed, is_jump_interrupted)
 	animate_sprite(_velocity)
@@ -98,3 +102,9 @@ func _on_Immune_timeout() -> void:
 	for item in $ObjectDetector.get_overlapping_bodies():
 		if "Enemy" in item.name:
 			item._on_Area2D_body_entered(get_node("."))
+			
+func _on_ladder_changed(state: bool) -> void:
+	if state:
+		ladder_count += 1
+	else:
+		ladder_count -= 1
