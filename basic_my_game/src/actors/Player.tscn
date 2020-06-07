@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://assets/sprites/characters.png" type="Texture" id=1]
 [ext_resource path="res://src/actors/Player.gd" type="Script" id=2]
@@ -75,6 +75,10 @@ region = Rect2( 256, 32, 32, 32 )
 atlas = ExtResource( 1 )
 region = Rect2( 288, 32, 32, 32 )
 
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 1 )
+region = Rect2( 576, 32, 32, 32 )
+
 [sub_resource type="SpriteFrames" id=19]
 animations = [ {
 "frames": [ SubResource( 1 ) ],
@@ -106,6 +110,11 @@ animations = [ {
 "loop": true,
 "name": "bounce_back",
 "speed": 7.0
+}, {
+"frames": [ SubResource( 25 ) ],
+"loop": true,
+"name": "on_ladder",
+"speed": 5.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=20]
