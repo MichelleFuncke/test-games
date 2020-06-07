@@ -153,7 +153,7 @@ extents = Vector2( 8, 11 )
 [node name="Enemy_elf" type="KinematicBody2D"]
 z_index = 1
 collision_layer = 2
-collision_mask = 8
+collision_mask = 24
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
@@ -173,7 +173,7 @@ shape = SubResource( 17 )
 position = Vector2( 7, 0 )
 enabled = true
 cast_to = Vector2( 0, 17 )
-collision_mask = 8
+collision_mask = 24
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/damaged = SubResource( 10 )
