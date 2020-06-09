@@ -25,7 +25,7 @@ func _physics_process(delta: float) -> void:
 		can_jump = true
 	
 	var is_jump_interrupted: = Input.is_action_just_released("jump") and _velocity.y < 0.0
-	is_on_ladder = ladder_count > 0
+	is_on_ladder = get_on_ladder(is_on_ladder)
 	
 	if Input.is_action_just_pressed("move_down") and not is_on_ladder:
 		for item in $FloatingObjectDetector.get_overlapping_bodies():
@@ -126,3 +126,18 @@ func _on_ladder_changed(state: bool) -> void:
 		ladder_count += 1
 	else:
 		ladder_count -= 1
+		
+func get_on_ladder(previous_value: bool) -> bool:
+	if ladder_count < 1:
+		return false
+		
+	if previous_value:
+		return true
+	
+	if Input.is_action_just_pressed("move_down"):
+		return true
+		
+	if Input.is_action_just_pressed("move_up"):
+		return true
+	
+	return false
