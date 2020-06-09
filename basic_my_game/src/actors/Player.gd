@@ -38,9 +38,7 @@ func _physics_process(delta: float) -> void:
 	
 	_velocity = move_and_slide(_velocity, WorldData.FLOOR_NORMAL) # we don't need to multiply by delta because move_and_slide
 	
-	was_on_ground = is_on_floor() || is_on_ladder
-	if was_on_ground:
-		jump_count = 0
+	was_on_ground = get_next_on_ground_state(was_on_ground)
 	
 	if Input.is_action_just_pressed("ui_focus_next") and not is_on_ladder:
 		var fireball = FIREBALL.instance()
@@ -144,3 +142,13 @@ func get_on_ladder(previous_value: bool) -> bool:
 		return true
 	
 	return false
+	
+func get_next_on_ground_state(previous_value: bool) -> bool:
+	if is_on_floor() || is_on_ladder:
+		if not previous_value:
+			jump_count = 0
+		return true
+	else:
+		if previous_value:
+			jump_count = 1
+		return false
