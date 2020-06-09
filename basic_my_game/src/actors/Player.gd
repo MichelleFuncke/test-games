@@ -131,6 +131,9 @@ func get_on_ladder(previous_value: bool) -> bool:
 	if ladder_count < 1:
 		return false
 		
+	if Input.is_action_just_pressed("jump"):
+		return false
+		
 	if previous_value:
 		return true
 	
