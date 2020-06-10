@@ -52,9 +52,10 @@ position = Vector2( 32, 32 )
 [node name="PlayerStats" parent="." instance=ExtResource( 5 )]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 128, 144 )
+position = Vector2( 40, 136 )
 
 [node name="LongLadder" type="Node2D" parent="."]
+position = Vector2( 48, 0 )
 
 [node name="LadderTop" parent="LongLadder" instance=ExtResource( 7 )]
 position = Vector2( 72, 24 )
