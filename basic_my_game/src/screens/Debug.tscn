@@ -1,0 +1,91 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/screens/Debug.gd" type="Script" id=1]
+[ext_resource path="res://assets/Debug_font.tres" type="DynamicFont" id=2]
+
+[node name="Debug" type="CanvasLayer"]
+layer = 100
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_vertical_guides_": [ 320.0 ]
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+modulate = Color( 1, 1, 1, 0.588235 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 310.0
+margin_bottom = 170.0
+alignment = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+margin_left = 210.0
+margin_right = 300.0
+margin_bottom = 160.0
+rect_min_size = Vector2( 90, 0 )
+
+[node name="Velocity_x" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_right = 90.0
+margin_bottom = 9.0
+custom_fonts/font = ExtResource( 2 )
+text = "Velocity_X:"
+
+[node name="Velocity_y" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 13.0
+margin_right = 90.0
+margin_bottom = 22.0
+custom_fonts/font = ExtResource( 2 )
+text = "Velocity_Y:"
+
+[node name="On_ladder" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 26.0
+margin_right = 90.0
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 2 )
+text = "is_on_ladder:"
+
+[node name="Ladder_count" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 39.0
+margin_right = 90.0
+margin_bottom = 48.0
+custom_fonts/font = ExtResource( 2 )
+text = "ladder_count: "
+
+[node name="On_ground" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 52.0
+margin_right = 90.0
+margin_bottom = 61.0
+custom_fonts/font = ExtResource( 2 )
+text = "was_on_ground:"
+
+[node name="Jump_count" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 65.0
+margin_right = 90.0
+margin_bottom = 74.0
+custom_fonts/font = ExtResource( 2 )
+text = "jump_count:"
+
+[node name="Damaged" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 78.0
+margin_right = 90.0
+margin_bottom = 87.0
+custom_fonts/font = ExtResource( 2 )
+text = "Damaged:"
+
+[node name="Immune" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 91.0
+margin_right = 90.0
+margin_bottom = 100.0
+custom_fonts/font = ExtResource( 2 )
+text = "Immune:"
