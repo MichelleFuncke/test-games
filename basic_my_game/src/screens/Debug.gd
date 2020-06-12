@@ -14,3 +14,4 @@ func _physics_process(delta: float) -> void:
 		$MarginContainer/HBoxContainer/VBoxContainer/Jump_count.text = "jump_count: " + str(player.jump_count)
 		$MarginContainer/HBoxContainer/VBoxContainer/Damaged.text = "Damaged: " + str(player._is_damaged)
 		$MarginContainer/HBoxContainer/VBoxContainer/Immune.text = "Immune: " + str(player._is_immune)
+		$MarginContainer/HBoxContainer/VBoxContainer/Glide.text = "is_gliding: " + str(player.is_gliding)

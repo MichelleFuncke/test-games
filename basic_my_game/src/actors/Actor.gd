@@ -4,6 +4,7 @@ class_name Actor
 
 export var speed: = Vector2(300.0, 500.0)
 export var climb_speed: = 270.0
+export var glide_speed: = 100.0
 export var gravity: = 3000.0
 var _velocity: = Vector2.ZERO
 var _is_dead: = false
