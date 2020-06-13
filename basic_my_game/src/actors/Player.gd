@@ -6,6 +6,7 @@ var is_on_ladder: = false
 var ladder_count: = 0
 var was_on_ground: = true
 var jump_count: = 0
+var is_gliding: = false
 
 
 func _ready() -> void:
@@ -18,7 +19,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if _is_dead == true || _is_damaged == true:
 		return
-	
+		
 	var can_jump: = false
 	if Input.is_action_just_pressed("jump") and jump_count < 2:
 		jump_count += 1
@@ -27,13 +28,15 @@ func _physics_process(delta: float) -> void:
 	var is_jump_interrupted: = Input.is_action_just_released("jump") and _velocity.y < 0.0
 	is_on_ladder = get_on_ladder(is_on_ladder)
 	
+	is_gliding = get_gliding(is_gliding)
+	
 	if Input.is_action_just_pressed("move_down") and not is_on_ladder:
 		for item in $FloatingObjectDetector.get_overlapping_bodies():
 			item.get_node("PassThroughTimer").start()
 			item.set_collision_layer_bit(3, false)
 	
 	var direction: = get_direction(can_jump)
-	_velocity = calculate_move_velocity(_velocity, direction, speed, is_jump_interrupted)
+	_velocity = calculate_move_velocity(_velocity, direction, speed, is_jump_interrupted, is_gliding)
 	animate_sprite(_velocity)
 	
 	_velocity = move_and_slide(_velocity, WorldData.FLOOR_NORMAL) # we don't need to multiply by delta because move_and_slide
@@ -61,7 +64,8 @@ func calculate_move_velocity(
 		linear_velocity: Vector2,
 		direction: Vector2,
 		speed: Vector2,
-		is_jump_interrupted: bool
+		is_jump_interrupted: bool,
+		is_gliding: bool
 	) -> Vector2:
 	var out: = linear_velocity
 	out.x = speed.x * direction.x
@@ -72,7 +76,10 @@ func calculate_move_velocity(
 		if direction.y < 0:
 			out.y = speed.y * direction.y
 			
-		out.y += WorldData.GRAVITY * get_physics_process_delta_time() # this is the delta _process uses
+		if is_gliding:
+			out.y += glide_speed * get_physics_process_delta_time() # this is the delta _process uses
+		else:
+			out.y += WorldData.GRAVITY * get_physics_process_delta_time() # this is the delta _process uses
 	
 	if is_jump_interrupted: # Jump is now modulated by how long you press jump
 		out.y = 0.0
@@ -80,17 +87,22 @@ func calculate_move_velocity(
 	
 	
 func animate_sprite(direction: Vector2) -> void:
-	if direction.x == 0:
-		if is_on_ladder:
-			$AnimatedSprite.play("on_ladder")
-		else:
-			$AnimatedSprite.play("idle")
+	if is_gliding:
+		$AnimatedSprite.play("glide")
+		if direction.x != 0:
+			$AnimatedSprite.flip_h = direction.x < 0
 	else:
-		if is_on_ladder:
-			$AnimatedSprite.play("climb")
+		if direction.x == 0:
+			if is_on_ladder:
+				$AnimatedSprite.play("on_ladder")
+			else:
+				$AnimatedSprite.play("idle")
 		else:
-			$AnimatedSprite.play("walk")
-		$AnimatedSprite.flip_h = direction.x < 0
+			if is_on_ladder:
+				$AnimatedSprite.play("climb")
+			else:
+				$AnimatedSprite.play("walk")
+			$AnimatedSprite.flip_h = direction.x < 0
 	emit_signal("direction_changed")
 
 
@@ -152,3 +164,16 @@ func get_next_on_ground_state(previous_value: bool) -> bool:
 		if previous_value:
 			jump_count = 1
 		return false
+		
+func get_gliding(previous_value: bool) -> bool:
+	if Input.is_action_just_released("move_up"):
+		return false
+		
+	if Input.is_action_just_pressed("move_up") and not is_on_ladder and not is_on_floor():
+		return true
+	
+	if previous_value and not is_on_ladder and not is_on_floor():
+		return true
+	else:
+		return false
+		
