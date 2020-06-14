@@ -99,8 +99,3 @@ position = Vector2( 224, 72 )
 
 [node name="Enemy_snake" parent="." instance=ExtResource( 12 )]
 position = Vector2( 736, 144 )
-score = 100
-damage = 100
-speed = Vector2( 50, 0 )
-max_health = 100
-bounce = 200.0

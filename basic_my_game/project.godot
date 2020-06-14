@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "ActorEnemy",
 "language": "GDScript",
 "path": "res://src/actors/Actor_Enemy.gd"
+}, {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://src/actors/StateMachine.gd"
 } ]
 _global_script_class_icons={
 "Actor": "",
-"ActorEnemy": ""
+"ActorEnemy": "",
+"StateMachine": ""
 }
 
 [application]
