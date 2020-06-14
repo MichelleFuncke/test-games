@@ -1,47 +1,60 @@
-extends ActorEnemy
+extends KinematicBody2D
+
 
 export var score: = 100
 export var damage: = 100
-signal direction_changed
+export var speed: = Vector2(50.0, 0.0)
+export var max_health: = 100
+export var bounce: = 200.0
+var _health : = max_health
+var _velocity: = Vector2.ZERO
 
 func _ready() -> void:
 	# Have to set it here or it uses the default of the Actor.gd
 	_health = max_health
-	self.connect("direction_changed", self, "change_direction")
 
 func _physics_process(delta: float) -> void:
-	if _is_dead == true || _is_damaged == true:
-		return
+	if $StateMachine.current_state != null:
+		$state.text = $StateMachine.states.keys()[$StateMachine.current_state]
+
+
+func take_damage(damage: int, direction: Vector2) -> void:
+	# Don't want to take damage if it's already dead
+	if $StateMachine.current_state != $StateMachine.states.DEAD:
+		_health -= damage
+		$Damage_timer.start()
+		stagger(direction)
+		
+		if _health <= 0:
+			die()
+
+
+func stagger(direction: Vector2) -> void:
+	_velocity = bounce_velocity(direction, bounce)
+	$StateMachine.direction = Vector2.RIGHT if direction.x < 0 else Vector2.LEFT
+	$StateMachine.current_state = $StateMachine.states.STAGGER
+	move_and_slide(_velocity)
 	
-	_velocity.y = WorldData.GRAVITY * delta
-	if is_on_wall() and is_on_floor():
-		_velocity.x *= -1.0
 	
-	if $RayCast2D.is_colliding() == false and is_on_floor():
-		_velocity.x *= -1.0
-
-	animate_sprite(_velocity)
+func bounce_velocity(
+		attack_direction: Vector2,
+		impulse: float
+	) -> Vector2:
+	var out: = Vector2(0, 0)
+	var direction: = -1.0 if attack_direction.y < 0 else 1.0
+	out.y = -impulse * direction
 	
-	_velocity.y = move_and_slide(_velocity, WorldData.FLOOR_NORMAL).y
+	direction = -1.0 if attack_direction.x < 0 else 1.0
+	out.x = impulse * direction
+	
+	return out
 
 
-func animate_sprite(direction: Vector2) -> void:
-	if direction.x == 0 || direction.y == 0:
-		$AnimatedSprite.play("idle")
-	else:
-		$AnimatedSprite.play("walk")
-		$AnimatedSprite.flip_h = direction.x < 0
-	emit_signal("direction_changed")
-
-
-func change_direction() -> void:
-	var direction: = -1.0 if $AnimatedSprite.flip_h else 1.0
-	$RayCast2D.position.x = abs($RayCast2D.position.x) * direction
-
-
-func _on_screen_entered() -> void:
-	_velocity.x = -speed.x
-	animate_sprite(_velocity)
+func die() -> void:
+	# This is to make sure the enemy can only interact with the world
+	set_collision_mask_bit(1, false)
+	$StateMachine.current_state = $StateMachine.states.DEAD
+	$Death_timer.start()
 
 
 func _on_Timer_timeout() -> void:
@@ -55,12 +68,13 @@ func _on_Area2D_body_entered(body: Node) -> void:
 
 
 func _on_Damage_timeout() -> void:
-	_is_damaged = false
-	if _is_dead == true:
-		_velocity.x = 0
-	elif _velocity.x != speed.x:
-		var direction: = 1.0 if $AnimatedSprite.flip_h else -1.0
-		
-		_velocity.x = speed.x * direction
-		move_and_slide(_velocity)
-		animate_sprite(_velocity)
+	if $StateMachine.current_state != $StateMachine.states.DEAD:
+		$StateMachine.current_state = $StateMachine.states.MOVE
+
+
+func _on_screen_entered() -> void:
+	$StateMachine.current_state = $StateMachine.states.MOVE
+
+
+func _on_screen_exited() -> void:
+	$StateMachine.current_state = $StateMachine.states.IDLE
