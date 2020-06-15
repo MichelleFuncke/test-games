@@ -20,7 +20,7 @@ func take_damage(damage: int, direction: Vector2) -> void:
 		stagger(direction)
 		
 		if PlayerData.current_health <= 0:
-			die()
+			$BasicStateMachine.current_state = $BasicStateMachine.states.DEAD
 			return
 		
 		if has_node("Immune_timer"):
@@ -49,12 +49,3 @@ func bounce_velocity(
 	out.x = impulse * direction
 	
 	return out
-
-
-func die() -> void:
-	_velocity = Vector2(0, 0)
-	
-	# This is to make sure the player can only interact with the world
-	set_collision_mask_bit(0, false)
-	$BasicStateMachine.current_state = $BasicStateMachine.states.DEAD
-	$Death_timer.start()

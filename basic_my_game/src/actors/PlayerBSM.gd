@@ -83,6 +83,10 @@ func _enter_state(new_state, old_state):
 				parent.get_node("AnimationPlayer").play("damaged")
 			change_direction()
 		states.DEAD:
+			parent._velocity = Vector2(0, 0)
+			# This is to make sure the player can only interact with the world
+			parent.set_collision_mask_bit(0, false)
+			parent.get_node("Death_timer").start()
 			parent.get_node("AnimationPlayer").play("dead")
 
 

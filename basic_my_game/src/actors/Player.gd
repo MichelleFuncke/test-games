@@ -55,7 +55,8 @@ func apply_movement(state):
 		direction = $BasicStateMachine.direction
 	else:
 		$BasicStateMachine.direction = direction
-	_velocity = calculate_move_velocity(_velocity, direction, speed, is_jump_interrupted, is_gliding)
+	_velocity = calculate_move_velocity(state, _velocity, direction, speed, is_jump_interrupted)
+	_velocity = apply_gravity(state, _velocity, direction, is_gliding)
 	_velocity = move_and_slide(_velocity, WorldData.FLOOR_NORMAL) # we don't need to multiply by delta because move_and_slide
 
 
@@ -70,37 +71,45 @@ func get_direction(state) -> Vector2:
 
 
 func calculate_move_velocity(
+		state,
 		linear_velocity: Vector2,
 		direction: Vector2,
 		speed: Vector2,
-		is_jump_interrupted: bool,
-		is_gliding: bool
+		is_jump_interrupted: bool
 	) -> Vector2:
 	var out: = linear_velocity
-	if $BasicStateMachine.current_state == $BasicStateMachine.states.STAGGER:
+	if state == $BasicStateMachine.states.STAGGER:
 		if out.y > 0 and is_on_floor():
-				out.x = 0.0
+			out.x = 0.0
 	else:
 		out.x = speed.x * direction.x
 	
+	if is_jump_interrupted: # Jump is now modulated by how long you press jump
+		out.y = 0.0
+		
 	if is_on_ladder:
 		out.y = climb_speed * direction.y
 	else:
-		if $BasicStateMachine.current_state == $BasicStateMachine.states.STAGGER:
+		if direction.y < 0 and state != $BasicStateMachine.states.STAGGER:
+			out.y = speed.y * direction.y
+	return out
+
+
+func apply_gravity(
+		state,
+		linear_velocity: Vector2,
+		direction: Vector2,
+		is_gliding: bool
+	) -> Vector2:
+	var out: = linear_velocity
+	if not is_on_ladder:
+		if state == $BasicStateMachine.states.STAGGER:
 			out.y += WorldData.GRAVITY * get_physics_process_delta_time() # this is the delta _process uses
-			if out.y > 0 and is_on_floor():
-				out.x = 0.0
 		else:
-			if direction.y < 0:
-				out.y = speed.y * direction.y
-				
 			if is_gliding:
 				out.y += glide_speed * get_physics_process_delta_time() # this is the delta _process uses
 			else:
 				out.y += WorldData.GRAVITY * get_physics_process_delta_time() # this is the delta _process uses
-	
-	if is_jump_interrupted: # Jump is now modulated by how long you press jump
-		out.y = 0.0
 	return out
 
 
