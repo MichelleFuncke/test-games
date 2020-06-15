@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/actors/Actor.gd"
 }, {
-"base": "KinematicBody2D",
-"class": "ActorEnemy",
-"language": "GDScript",
-"path": "res://src/actors/Actor_Enemy.gd"
-}, {
 "base": "Node",
 "class": "StateMachine",
 "language": "GDScript",
@@ -26,7 +21,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Actor": "",
-"ActorEnemy": "",
 "StateMachine": ""
 }
 
