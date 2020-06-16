@@ -71,8 +71,11 @@ func _on_Death_timeout() -> void:
 
 func _on_Area2D_body_entered(body: Node) -> void:
 	if "Player" in body.name:
-		body.take_damage(damage, _velocity)
-
+		if body._velocity.x == 0:
+			body.take_damage(damage, _velocity)
+		else:
+			# The player will be knocked in the opposite direction to their movement
+			body.take_damage(damage, -1 * body._velocity)
 
 func _on_screen_entered() -> void:
 	$StateMachine.current_state = $StateMachine.states.MOVE
