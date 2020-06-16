@@ -1,7 +1,6 @@
 extends StateMachine
 
 var direction = Vector2.RIGHT
-onready var climbMachine = get_parent().get_node("ClimbStateMachine")
 
 func _ready() -> void:
 	add_state("IDLE")
@@ -30,14 +29,14 @@ func _get_transition(delta):
 			if parent._velocity.x != 0:
 				return states.WALK
 			
-			if parent._velocity.y != 0 and climbMachine.current_state == climbMachine.states.ON_LADDER:
+			if parent._velocity.y != 0 and on_ladder():
 				return states.WALK
 		states.WALK:
-			if not parent.is_on_floor() and climbMachine.current_state != climbMachine.states.ON_LADDER:
+			if not parent.is_on_floor() and not on_ladder():
 				return states.FALL
-			if parent._velocity.x == 0 and climbMachine.current_state != climbMachine.states.ON_LADDER:
+			if parent._velocity.x == 0 and not on_ladder():
 				return states.IDLE
-			elif parent._velocity.y == 0 and climbMachine.current_state == climbMachine.states.ON_LADDER:
+			elif parent._velocity.y == 0 and on_ladder():
 				return states.IDLE
 			else:
 				return states.WALK
@@ -47,12 +46,12 @@ func _get_transition(delta):
 			else:
 				return states.FALL
 		states.UP:
-			if parent._velocity.y == 0 and climbMachine.current_state == climbMachine.states.ON_LADDER:
+			if parent._velocity.y == 0 and on_ladder():
 				return states.IDLE
 			if parent._velocity.y >= 0:
 				return states.FALL
 		states.FALL:
-			if parent._velocity.y == 0 and climbMachine.current_state == climbMachine.states.ON_LADDER:
+			if parent._velocity.y == 0 and on_ladder():
 				return states.IDLE
 			if parent.is_on_floor():
 				return states.IDLE
@@ -66,12 +65,12 @@ func _get_transition(delta):
 func _enter_state(new_state, old_state):
 	match new_state:
 		states.IDLE:
-			if climbMachine.current_state == climbMachine.states.ON_LADDER:
+			if on_ladder():
 				parent.get_node("AnimatedSprite").play("on_ladder")
 			else:
 				parent.get_node("AnimatedSprite").play("idle")
 		states.WALK:
-			if climbMachine.current_state == climbMachine.states.ON_LADDER:
+			if on_ladder():
 				parent.get_node("AnimatedSprite").play("climb")
 			else:
 				parent.get_node("AnimatedSprite").play("walk")
@@ -103,3 +102,7 @@ func change_direction():
 
 func _exit_state(old_state, new_state):
 	pass
+	
+func on_ladder():
+	var climbMachine = parent.get_node("ClimbStateMachine")
+	return climbMachine.current_state == climbMachine.states.ON_LADDER
