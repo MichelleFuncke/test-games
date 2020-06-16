@@ -1,9 +1,10 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://assets/sprites/characters.png" type="Texture" id=1]
 [ext_resource path="res://src/actors/Player.gd" type="Script" id=2]
 [ext_resource path="res://src/actors/PlayerBSM.gd" type="Script" id=3]
 [ext_resource path="res://assets/Debug_font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://src/actors/PlayerCSM.gd" type="Script" id=5]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -299,10 +300,7 @@ collision_mask = 16
 position = Vector2( 0, 16 )
 shape = SubResource( 26 )
 
-[node name="BasicStateMachine" type="Node" parent="."]
-script = ExtResource( 3 )
-
-[node name="state" type="Label" parent="."]
+[node name="Basicstate" type="Label" parent="."]
 margin_left = -9.0
 margin_top = -13.0
 margin_right = 31.0
@@ -312,6 +310,23 @@ text = "state"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="BasicStateMachine" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Climbstate" type="Label" parent="."]
+margin_left = -9.0
+margin_top = 12.0
+margin_right = 31.0
+margin_bottom = 26.0
+custom_fonts/font = ExtResource( 4 )
+text = "state"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ClimbStateMachine" type="Node" parent="."]
+script = ExtResource( 5 )
 [connection signal="timeout" from="Death_timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="Damage_timer" to="." method="_on_Damage_timeout"]
 [connection signal="timeout" from="Immune_timer" to="." method="_on_Immune_timeout"]

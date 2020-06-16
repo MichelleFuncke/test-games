@@ -1,9 +1,6 @@
 extends Actor
 
 const FIREBALL = preload("res://src/objects/Fireball.tscn")
-signal direction_changed
-var is_on_ladder: = false
-var ladder_count: = 0
 var was_on_ground: = true
 var jump_count: = 0
 var is_jump_interrupted: = false
@@ -11,21 +8,20 @@ var is_gliding: = false
 
 
 func _ready() -> void:
-	# Have to set it here or it uses the default of the Actor.gd
-	PlayerData.connect("on_ladder", self, "_on_ladder_changed")
-	jump_count = 0
+	pass
 
 # warning-ignore:unused_argument
 func _physics_process(delta: float) -> void:
 	if $BasicStateMachine.current_state != null:
-		$state.text = $BasicStateMachine.states.keys()[$BasicStateMachine.current_state]
+		$Basicstate.text = $BasicStateMachine.states.keys()[$BasicStateMachine.current_state]
 	
-	was_on_ground = get_next_on_ground_state(was_on_ground)
+	if $ClimbStateMachine.current_state != null:
+		$Climbstate.text = $ClimbStateMachine.states.keys()[$ClimbStateMachine.current_state]
 	
 	if [$BasicStateMachine.states.DEAD, $BasicStateMachine.states.STAGGER].has($BasicStateMachine.current_state):
 		return
 		
-	if Input.is_action_just_pressed("ui_focus_next") and not is_on_ladder:
+	if Input.is_action_just_pressed("ui_focus_next") and [$ClimbStateMachine.states.NO_LADDER, $ClimbStateMachine.states.OVER_LADDER].has($ClimbStateMachine.current_state):
 		var fireball = FIREBALL.instance()
 		fireball.set_fireball_direction(sign($Position2D.position.x))
 		get_parent().add_child(fireball)
@@ -38,11 +34,10 @@ func handle_move_input():
 		jump_count += 1
 	
 	is_jump_interrupted = Input.is_action_just_released("jump") and _velocity.y < 0.0
-	is_on_ladder = get_on_ladder(is_on_ladder)
 	
 	is_gliding = get_gliding(is_gliding)
 	
-	if Input.is_action_just_pressed("move_down") and not is_on_ladder:
+	if Input.is_action_just_pressed("move_down") and [$ClimbStateMachine.states.NO_LADDER, $ClimbStateMachine.states.OVER_LADDER].has($ClimbStateMachine.current_state):
 		for item in $FloatingObjectDetector.get_overlapping_bodies():
 			item.get_node("PassThroughTimer").start()
 			item.set_collision_layer_bit(3, false)
@@ -63,7 +58,7 @@ func apply_movement(state):
 func get_direction(state) -> Vector2:
 	var side_movement = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	var vertical_movement = 1.0
-	if is_on_ladder:
+	if $ClimbStateMachine.states.ON_LADDER == $ClimbStateMachine.current_state:
 		vertical_movement = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 	else:
 		vertical_movement = -1.0 if state == $BasicStateMachine.states.JUMP else 1.0
@@ -87,7 +82,7 @@ func calculate_move_velocity(
 	if is_jump_interrupted: # Jump is now modulated by how long you press jump
 		out.y = 0.0
 		
-	if is_on_ladder:
+	if $ClimbStateMachine.states.ON_LADDER == $ClimbStateMachine.current_state:
 		out.y = climb_speed * direction.y
 	else:
 		if direction.y < 0 and state != $BasicStateMachine.states.STAGGER:
@@ -102,7 +97,7 @@ func apply_gravity(
 		is_gliding: bool
 	) -> Vector2:
 	var out: = linear_velocity
-	if not is_on_ladder:
+	if $ClimbStateMachine.states.ON_LADDER != $ClimbStateMachine.current_state:
 		if state == $BasicStateMachine.states.STAGGER:
 			out.y += WorldData.GRAVITY * get_physics_process_delta_time() # this is the delta _process uses
 		else:
@@ -135,34 +130,8 @@ func _on_Immune_timeout() -> void:
 			item._on_Area2D_body_entered(get_node("."))
 
 
-func _on_ladder_changed(state: bool) -> void:
-	if state:
-		ladder_count += 1
-	else:
-		ladder_count -= 1
-
-
-func get_on_ladder(previous_value: bool) -> bool:
-	if ladder_count < 1:
-		return false
-		
-	if Input.is_action_just_pressed("jump"):
-		return false
-		
-	if previous_value:
-		return true
-	
-	if Input.is_action_just_pressed("move_down"):
-		return true
-		
-	if Input.is_action_just_pressed("move_up"):
-		return true
-	
-	return false
-
-
 func get_next_on_ground_state(previous_value: bool) -> bool:
-	if is_on_floor() || is_on_ladder:
+	if is_on_floor() || $ClimbStateMachine.states.ON_LADDER == $ClimbStateMachine.current_state:
 		if not previous_value:
 			jump_count = 0
 		return true
@@ -176,10 +145,10 @@ func get_gliding(previous_value: bool) -> bool:
 	if Input.is_action_just_released("move_up"):
 		return false
 		
-	if Input.is_action_just_pressed("move_up") and not is_on_ladder and not is_on_floor():
+	if Input.is_action_just_pressed("move_up") and not $ClimbStateMachine.states.ON_LADDER == $ClimbStateMachine.current_state and not is_on_floor():
 		return true
 	
-	if previous_value and not is_on_ladder and not is_on_floor():
+	if previous_value and not $ClimbStateMachine.states.ON_LADDER == $ClimbStateMachine.current_state and not is_on_floor():
 		return true
 	else:
 		return false

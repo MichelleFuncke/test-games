@@ -1,6 +1,7 @@
 extends StateMachine
 
 var direction = Vector2.RIGHT
+onready var climbMachine = get_parent().get_node("ClimbStateMachine")
 
 func _ready() -> void:
 	add_state("IDLE")
@@ -10,7 +11,7 @@ func _ready() -> void:
 	add_state("FALL")
 	add_state("STAGGER")
 	add_state("DEAD")
-	# To ensure the enemy is facing left initially
+	# To ensure the player is idle initially
 	call_deferred("set_state", states.IDLE)
 
 
@@ -20,6 +21,7 @@ func _state_logic(delta):
 
 	parent.handle_move_input()
 	parent.apply_movement(current_state)
+	parent.was_on_ground = parent.get_next_on_ground_state(parent.was_on_ground)
 
 
 func _get_transition(delta):
@@ -28,14 +30,14 @@ func _get_transition(delta):
 			if parent._velocity.x != 0:
 				return states.WALK
 			
-			if parent._velocity.y != 0 and parent.is_on_ladder:
+			if parent._velocity.y != 0 and climbMachine.current_state == climbMachine.states.ON_LADDER:
 				return states.WALK
 		states.WALK:
-			if not parent.is_on_floor() and not parent.is_on_ladder:
+			if not parent.is_on_floor() and climbMachine.current_state != climbMachine.states.ON_LADDER:
 				return states.FALL
-			if parent._velocity.x == 0 and not parent.is_on_ladder:
+			if parent._velocity.x == 0 and climbMachine.current_state != climbMachine.states.ON_LADDER:
 				return states.IDLE
-			elif parent._velocity.y == 0 and parent.is_on_ladder:
+			elif parent._velocity.y == 0 and climbMachine.current_state == climbMachine.states.ON_LADDER:
 				return states.IDLE
 			else:
 				return states.WALK
@@ -45,9 +47,13 @@ func _get_transition(delta):
 			else:
 				return states.FALL
 		states.UP:
+			if parent._velocity.y == 0 and climbMachine.current_state == climbMachine.states.ON_LADDER:
+				return states.IDLE
 			if parent._velocity.y >= 0:
 				return states.FALL
 		states.FALL:
+			if parent._velocity.y == 0 and climbMachine.current_state == climbMachine.states.ON_LADDER:
+				return states.IDLE
 			if parent.is_on_floor():
 				return states.IDLE
 		states.STAGGER:
@@ -60,12 +66,12 @@ func _get_transition(delta):
 func _enter_state(new_state, old_state):
 	match new_state:
 		states.IDLE:
-			if parent.is_on_ladder:
+			if climbMachine.current_state == climbMachine.states.ON_LADDER:
 				parent.get_node("AnimatedSprite").play("on_ladder")
 			else:
 				parent.get_node("AnimatedSprite").play("idle")
 		states.WALK:
-			if parent.is_on_ladder:
+			if climbMachine.current_state == climbMachine.states.ON_LADDER:
 				parent.get_node("AnimatedSprite").play("climb")
 			else:
 				parent.get_node("AnimatedSprite").play("walk")
