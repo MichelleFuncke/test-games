@@ -6,7 +6,10 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
 
-[node name="Fireball" type="Area2D"]
+[node name="Fireball" type="Area2D" groups=[
+"Range",
+"Weapon",
+]]
 collision_mask = 10
 script = ExtResource( 2 )
 __meta__ = {

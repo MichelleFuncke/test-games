@@ -7,7 +7,10 @@ export var speed: = Vector2(50.0, 0.0)
 export var max_health: = 100
 export var bounce: = 200.0
 var _health : = max_health
+var _is_immune: = false
 var _velocity: = Vector2.ZERO
+var weapon = null
+var weapon_path = ""
 
 func _ready() -> void:
 	# Have to set it here or it uses the default of the Actor.gd

@@ -6,9 +6,15 @@ var jump_count: = 0
 var is_jump_interrupted: = false
 var is_gliding: = false
 
+var weapon = null
+var weapon_path = ""
+var attack_cooling = false
+signal attack_triggered
 
 func _ready() -> void:
-	pass
+	connect("attack_triggered", $SwordPosition.get_node("Sword"), "_trigger_attack")
+	weapon = $SwordPosition.get_node("Sword")
+	weapon_path = weapon.get_path()
 
 # warning-ignore:unused_argument
 func _physics_process(delta: float) -> void:
@@ -21,11 +27,15 @@ func _physics_process(delta: float) -> void:
 	if [$BasicStateMachine.states.DEAD, $BasicStateMachine.states.STAGGER].has($BasicStateMachine.current_state):
 		return
 		
-	if Input.is_action_just_pressed("ui_focus_next") and [$ClimbStateMachine.states.NO_LADDER, $ClimbStateMachine.states.OVER_LADDER].has($ClimbStateMachine.current_state):
-		var fireball = FIREBALL.instance()
-		fireball.set_fireball_direction(sign($Position2D.position.x))
-		get_parent().add_child(fireball)
-		fireball.position = $Position2D.global_position
+	if can_attack():
+#		var fireball = FIREBALL.instance()
+#		fireball.set_fireball_direction(sign($FireballPosition.position.x))
+#		get_parent().add_child(fireball)
+#		fireball.position = $FireballPosition.global_position
+
+		emit_signal("attack_triggered")
+		attack_cooling = true
+		$Attack_timer.start()
 
 
 func handle_move_input():
@@ -153,3 +163,17 @@ func get_gliding(previous_value: bool) -> bool:
 	else:
 		return false
 
+
+func can_attack() -> bool:
+	if attack_cooling:
+		return false
+	if Input.is_action_just_pressed("ui_focus_next"):
+		if $ClimbStateMachine.states.ON_LADDER != $ClimbStateMachine.current_state:
+			if weapon.is_in_group("Melee"):
+				if weapon.get_node("States").current_state == weapon.get_node("States").states.IDLE:
+					return true
+	return false
+
+
+func _on_Attack_cooldown_timeout() -> void:
+	attack_cooling = false

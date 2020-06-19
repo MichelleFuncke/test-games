@@ -1,27 +1,43 @@
 extends Area2D
 
 export var damage: = 10
-const SPEED = 100
-var velocity = Vector2()
-var direction = 1
+var velocity: = Vector2()
+var direction: = 1
+
+
+func _ready():
+	pass
 
 
 func _physics_process(delta: float) -> void:
-	velocity = Vector2(direction, 0.0)
+	pass
 
 
 func _on_hit(body: Node) -> void:
-	if body.name == "Player":
+	if is_owner(body):
 		return
-
-	if "Enemy" in body.name:
-		body.take_damage(damage, velocity)
+	body.take_damage(damage, velocity)
 
 
 func set_sword_direction(dir):
 	direction = dir
+	velocity = Vector2(direction, 0.0)
+	$CollisionShape2D.rotation_degrees = abs($CollisionShape2D.rotation_degrees) * -1 * direction
 
 
 func _on_animation_finished(anim_name: String) -> void:
 	if "attack" in anim_name:
-		$AnimationPlayer.play("idle")
+		$States.current_state = $States.states.IDLE
+
+
+func is_owner(node):
+	return node.weapon_path == get_path()
+
+
+func _trigger_attack() -> void:
+	if not visible:
+		return
+	if direction > 0:
+		$States.current_state = $States.states.ATTACK_RIGHT
+	else:
+		$States.current_state = $States.states.ATTACK_LEFT

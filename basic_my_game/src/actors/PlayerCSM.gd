@@ -39,7 +39,14 @@ func _get_transition(delta):
 
 func _enter_state(new_state, old_state):
 	# Animations are handled in the BasicStateMachine
-	pass
+	match current_state:
+		states.NO_LADDER:
+			parent.weapon.visible = true
+		states.OVER_LADDER:
+			parent.weapon.visible = true
+		states.ON_LADDER:
+			parent.weapon.visible = false
+
 
 func _exit_state(old_state, new_state):
 	pass

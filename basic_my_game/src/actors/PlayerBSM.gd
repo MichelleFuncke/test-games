@@ -97,7 +97,10 @@ func _enter_state(new_state, old_state):
 
 func change_direction():
 	parent.get_node("AnimatedSprite").flip_h = direction.x < 0
-	parent.get_node("Position2D").position.x = abs(parent.get_node("Position2D").position.x) * direction.x
+	parent.get_node("FireballPosition").position.x = abs(parent.get_node("FireballPosition").position.x) * direction.x
+	parent.get_node("SwordPosition").position.x = abs(parent.get_node("SwordPosition").position.x) * direction.x
+	for child in parent.get_node("SwordPosition").get_children():
+		child.set_sword_direction(direction.x)
 
 
 func _exit_state(old_state, new_state):
