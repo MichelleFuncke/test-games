@@ -19,7 +19,7 @@ func _on_hit(body: Node) -> void:
 	body.take_damage(damage, velocity)
 
 
-func set_sword_direction(dir):
+func set_attack_direction(dir):
 	direction = dir
 	velocity = Vector2(direction, 0.0)
 	$CollisionShape2D.rotation_degrees = abs($CollisionShape2D.rotation_degrees) * -1 * direction

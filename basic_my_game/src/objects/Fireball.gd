@@ -21,5 +21,5 @@ func _on_hit(body: Node) -> void:
 func _on_screen_exited() -> void:
 	queue_free()
 
-func set_fireball_direction(dir):
+func set_attack_direction(dir):
 	direction = dir

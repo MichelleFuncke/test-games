@@ -244,13 +244,16 @@ extents = Vector2( 7, 3 )
 z_index = 2
 collision_mask = 8
 script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
 speed = Vector2( 100, 500 )
 climb_speed = 100.0
 
-[node name="SwordPosition" type="Position2D" parent="."]
+[node name="MeleePosition" type="Position2D" parent="."]
 position = Vector2( 7, 11 )
 
-[node name="Sword" parent="SwordPosition" instance=ExtResource( 6 )]
+[node name="Sword" parent="MeleePosition" instance=ExtResource( 6 )]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 21 )

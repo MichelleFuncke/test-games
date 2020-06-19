@@ -12,8 +12,9 @@ var attack_cooling = false
 signal attack_triggered
 
 func _ready() -> void:
-	connect("attack_triggered", $SwordPosition.get_node("Sword"), "_trigger_attack")
-	weapon = $SwordPosition.get_node("Sword")
+	connect("attack_triggered", $MeleePosition.get_node("Sword"), "_trigger_attack")
+	PlayerData.connect("score_updated", self, "_upgrade_weapon")
+	weapon = $MeleePosition.get_node("Sword")
 	weapon_path = weapon.get_path()
 
 # warning-ignore:unused_argument
@@ -28,12 +29,15 @@ func _physics_process(delta: float) -> void:
 		return
 		
 	if can_attack():
-#		var fireball = FIREBALL.instance()
-#		fireball.set_fireball_direction(sign($FireballPosition.position.x))
-#		get_parent().add_child(fireball)
-#		fireball.position = $FireballPosition.global_position
-
-		emit_signal("attack_triggered")
+		if weapon.is_in_group("Melee"):
+			emit_signal("attack_triggered")
+		else:
+			weapon.set_attack_direction(sign($FireballPosition.position.x))
+			get_parent().add_child(weapon)
+			weapon.position = $FireballPosition.global_position
+			# Make a new instance for the next attack
+			weapon = FIREBALL.instance()
+		
 		attack_cooling = true
 		$Attack_timer.start()
 
@@ -172,8 +176,17 @@ func can_attack() -> bool:
 			if weapon.is_in_group("Melee"):
 				if weapon.get_node("States").current_state == weapon.get_node("States").states.IDLE:
 					return true
+			if weapon.is_in_group("Range"):
+				return true
 	return false
 
 
 func _on_Attack_cooldown_timeout() -> void:
 	attack_cooling = false
+
+
+func _upgrade_weapon() -> void:
+	if PlayerData.score > 100:
+		weapon = FIREBALL.instance()
+		# Disable the sword by making it invisible
+		$MeleePosition.get_node("Sword").visible = false
