@@ -76,6 +76,9 @@ func _on_Death_timeout() -> void:
 
 
 func _on_Area2D_body_entered(body: Node) -> void:
+	if $StateMachine.current_state == $StateMachine.states.DEAD:
+		return
+	
 	if "Player" in body.name:
 		if body._velocity.x == 0:
 			body.take_damage(damage, _velocity)

@@ -1,6 +1,11 @@
 extends Weapon
 
 const SPEED = 150
+onready var Machine = $States
+
+
+func _ready() -> void:
+	pass
 
 
 func _physics_process(delta: float) -> void:
@@ -28,7 +33,11 @@ func set_attack_direction(dir):
 func _trigger_attack() -> void:
 	if not visible:
 		return
+		
+	if Machine == null:
+		return
+	
 	if direction.x > 0:
-		$States.current_state = $States.states.ATTACK_RIGHT
+		Machine.current_state = Machine.states.ATTACK_RIGHT
 	else:
-		$States.current_state = $States.states.ATTACK_LEFT
+		Machine.current_state = Machine.states.ATTACK_LEFT
