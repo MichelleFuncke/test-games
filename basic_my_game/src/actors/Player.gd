@@ -12,6 +12,7 @@ var weapon_path = ""
 var attack_cooling = false
 signal attack_triggered
 
+
 func _ready() -> void:
 	var melee = SWORD.instance()
 	$MeleePosition.add_child(melee)
@@ -42,11 +43,6 @@ func _physics_process(delta: float) -> void:
 
 		attack_cooling = true
 		$Attack_timer.start()
-
-		if weapon.is_in_group("Range"):
-			# Create a new instance to use in next attack
-			weapon = FIREBALL.instance()
-			connect("attack_triggered", weapon, "_trigger_attack")
 	
 	if Input.is_action_just_pressed("Debug"):
 		$Basicstate.visible = not $Basicstate.visible
@@ -194,6 +190,15 @@ func can_attack() -> bool:
 
 func _on_Attack_cooldown_timeout() -> void:
 	attack_cooling = false
+	var reference = weakref(weapon)
+	if not reference.get_ref():
+		# Create a new instance to use in next attack
+		weapon = FIREBALL.instance()
+		connect("attack_triggered", weapon, "_trigger_attack")
+	elif weapon.is_in_group("Range"):
+		# Create a new instance to use in next attack
+		weapon = FIREBALL.instance()
+		connect("attack_triggered", weapon, "_trigger_attack")
 
 
 func _upgrade_weapon() -> void:

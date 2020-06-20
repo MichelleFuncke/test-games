@@ -97,9 +97,6 @@ tracks/1/keys = {
 position = Vector2( 8, 0 )
 collision_mask = 2
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_group_": true
-}
 damage = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

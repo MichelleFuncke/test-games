@@ -19,7 +19,7 @@ func _on_hit(body: Node) -> void:
 
 	if "Enemy" in body.name:
 		body.take_damage(damage, velocity)
-	queue_free()
+	$AnimationPlayer.play("collide")
 
 
 func _on_screen_exited() -> void:
