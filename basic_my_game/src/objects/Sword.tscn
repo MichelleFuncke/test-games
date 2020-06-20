@@ -4,7 +4,7 @@
 [ext_resource path="res://src/objects/Sword.gd" type="Script" id=2]
 [ext_resource path="res://src/objects/SwordSM.gd" type="Script" id=3]
 
-[sub_resource type="SegmentShape2D" id=5]
+[sub_resource type="SegmentShape2D" id=1]
 b = Vector2( -2.09815e-06, 24 )
 
 [sub_resource type="Animation" id=2]
@@ -100,11 +100,12 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
+damage = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -8, 0 )
 rotation = -3.14159
-shape = SubResource( 5 )
+shape = SubResource( 1 )
 disabled = true
 
 [node name="Sprite" type="Sprite" parent="CollisionShape2D"]

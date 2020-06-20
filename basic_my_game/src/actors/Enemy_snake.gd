@@ -22,6 +22,9 @@ func _physics_process(delta: float) -> void:
 	if $StateMachine.current_state != null:
 		$state.text = $StateMachine.states.keys()[$StateMachine.current_state]
 	
+		if Input.is_action_just_pressed("Debug"):
+			$state.visible = not $state.visible
+
 
 func take_damage(damage: int, direction: Vector2) -> void:
 	# Don't want to take damage if it's already dead

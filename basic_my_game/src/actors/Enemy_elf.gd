@@ -12,13 +12,18 @@ var _velocity: = Vector2.ZERO
 var weapon = null
 var weapon_path = ""
 
+
 func _ready() -> void:
 	# Have to set it here or it uses the default of the Actor.gd
 	_health = max_health
 
+
 func _physics_process(delta: float) -> void:
 	if $StateMachine.current_state != null:
 		$state.text = $StateMachine.states.keys()[$StateMachine.current_state]
+		
+	if Input.is_action_just_pressed("Debug"):
+		$state.visible = not $state.visible
 
 
 func take_damage(damage: int, direction: Vector2) -> void:

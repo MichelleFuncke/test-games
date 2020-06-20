@@ -1,11 +1,10 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://assets/sprites/characters.png" type="Texture" id=1]
 [ext_resource path="res://src/actors/Player.gd" type="Script" id=2]
 [ext_resource path="res://src/actors/PlayerBSM.gd" type="Script" id=3]
 [ext_resource path="res://assets/Debug_font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://src/actors/PlayerCSM.gd" type="Script" id=5]
-[ext_resource path="res://src/objects/Sword.tscn" type="PackedScene" id=6]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 1 )
@@ -252,8 +251,6 @@ climb_speed = 100.0
 
 [node name="MeleePosition" type="Position2D" parent="."]
 position = Vector2( 7, 11 )
-
-[node name="Sword" parent="MeleePosition" instance=ExtResource( 6 )]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 21 )

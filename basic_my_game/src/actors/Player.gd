@@ -1,6 +1,7 @@
 extends Actor
 
 const FIREBALL = preload("res://src/objects/Fireball.tscn")
+const SWORD = preload("res://src/objects/Sword.tscn")
 var was_on_ground: = true
 var jump_count: = 0
 var is_jump_interrupted: = false
@@ -12,10 +13,14 @@ var attack_cooling = false
 signal attack_triggered
 
 func _ready() -> void:
-	connect("attack_triggered", $MeleePosition.get_node("Sword"), "_trigger_attack")
-	PlayerData.connect("score_updated", self, "_upgrade_weapon")
-	weapon = $MeleePosition.get_node("Sword")
+	var melee = SWORD.instance()
+	$MeleePosition.add_child(melee)
+	weapon = $MeleePosition.get_child(0)
 	weapon_path = weapon.get_path()
+	
+	connect("attack_triggered", weapon, "_trigger_attack")
+	PlayerData.connect("score_updated", self, "_upgrade_weapon")
+
 
 # warning-ignore:unused_argument
 func _physics_process(delta: float) -> void:
@@ -29,17 +34,23 @@ func _physics_process(delta: float) -> void:
 		return
 		
 	if can_attack():
-		if weapon.is_in_group("Melee"):
-			emit_signal("attack_triggered")
-		else:
-			weapon.set_attack_direction(sign($FireballPosition.position.x))
-			get_parent().add_child(weapon)
-			weapon.position = $FireballPosition.global_position
-			# Make a new instance for the next attack
-			weapon = FIREBALL.instance()
+		if weapon.is_in_group("Range"):
+			# Need to add the projectile to the scene
+			add_projective_to_scene(weapon)
 		
+		emit_signal("attack_triggered")
+
 		attack_cooling = true
 		$Attack_timer.start()
+
+		if weapon.is_in_group("Range"):
+			# Create a new instance to use in next attack
+			weapon = FIREBALL.instance()
+			connect("attack_triggered", weapon, "_trigger_attack")
+	
+	if Input.is_action_just_pressed("Debug"):
+		$Basicstate.visible = not $Basicstate.visible
+		$Climbstate.visible = not $Climbstate.visible
 
 
 func handle_move_input():
@@ -188,5 +199,12 @@ func _on_Attack_cooldown_timeout() -> void:
 func _upgrade_weapon() -> void:
 	if PlayerData.score > 100:
 		weapon = FIREBALL.instance()
+		connect("attack_triggered", weapon, "_trigger_attack")
 		# Disable the sword by making it invisible
 		$MeleePosition.get_node("Sword").visible = false
+
+
+func add_projective_to_scene(projectile: Weapon) -> void:
+	get_parent().add_child(projectile)
+	projectile.position = $FireballPosition.global_position
+	projectile.set_attack_direction(Vector2(sign($FireballPosition.position.x),0.0))

@@ -100,7 +100,7 @@ func change_direction():
 	parent.get_node("FireballPosition").position.x = abs(parent.get_node("FireballPosition").position.x) * direction.x
 	parent.get_node("MeleePosition").position.x = abs(parent.get_node("MeleePosition").position.x) * direction.x
 	for child in parent.get_node("MeleePosition").get_children():
-		child.set_attack_direction(direction.x)
+		child.set_attack_direction(direction)
 
 
 func _exit_state(old_state, new_state):
