@@ -1,7 +1,6 @@
 extends Area2D
 
 onready var Machine = $States
-const CROWN = preload("res://src/objects/treasure/Crown.tscn")
 
 
 func _physics_process(delta: float) -> void:
@@ -19,6 +18,6 @@ func _on_Chest_exited(body: Node) -> void:
 
 
 func drop_item() -> void:
-	var item = CROWN.instance()
+	var item = DropItems.get_random_item()
 	get_tree().get_root().add_child(item)
 	item.position = position
