@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/levels/MyTileSet_NoCollisions.tres" type="TileSet" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 48, 8 )
+
+[node name="Platform" type="StaticBody2D"]
+collision_layer = 8
+collision_mask = 0
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( -65539, 2, 0, -65538, 0, 0, -65537, 0, 0, -131072, 0, 0, -131071, 0, 0, -131070, 3, 0, -3, 536870918, 0, -2, 1, 0, -1, 5, 0, -65536, 5, 0, -65535, 5, 0, -65534, 6, 0, 65533, 536870918, 0, 65534, 5, 0, 65535, 5, 0, 0, 5, 0, 1, 1, 0, 2, 6, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -24 )
+shape = SubResource( 1 )
+one_way_collision = true
