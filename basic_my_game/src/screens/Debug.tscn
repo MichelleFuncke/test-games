@@ -76,19 +76,19 @@ margin_bottom = 74.0
 custom_fonts/font = ExtResource( 2 )
 text = "jump_count:"
 
-[node name="Damaged" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Immune" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 78.0
 margin_right = 90.0
 margin_bottom = 87.0
 custom_fonts/font = ExtResource( 2 )
-text = "Damaged:"
+text = "Immune:"
 
-[node name="Immune" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Attack_cooling" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 91.0
 margin_right = 90.0
 margin_bottom = 100.0
 custom_fonts/font = ExtResource( 2 )
-text = "Immune:"
+text = "Attack_cooling:"
 
 [node name="Glide" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 104.0
@@ -96,3 +96,10 @@ margin_right = 90.0
 margin_bottom = 113.0
 custom_fonts/font = ExtResource( 2 )
 text = "is_gliding:"
+
+[node name="Shoot_position" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+margin_top = 117.0
+margin_right = 90.0
+margin_bottom = 126.0
+custom_fonts/font = ExtResource( 2 )
+text = "shoot_position:"

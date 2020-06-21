@@ -21,9 +21,9 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if $StateMachine.current_state != null:
 		$state.text = $StateMachine.states.keys()[$StateMachine.current_state]
-		
-	if Input.is_action_just_pressed("Debug"):
-		$state.visible = not $state.visible
+	
+		if Input.is_action_just_pressed("Debug"):
+			$state.visible = not $state.visible
 
 
 func take_damage(damage: int, direction: Vector2) -> void:
@@ -38,9 +38,9 @@ func take_damage(damage: int, direction: Vector2) -> void:
 
 
 func stagger(direction: Vector2) -> void:
-	_velocity = bounce_velocity(direction, bounce)
-	$StateMachine.direction = Vector2.RIGHT if direction.x < 0 else Vector2.LEFT
 	$StateMachine.current_state = $StateMachine.states.STAGGER
+	
+	_velocity = bounce_velocity(direction, bounce)
 	move_and_slide(_velocity)
 	
 	
@@ -65,7 +65,12 @@ func die() -> void:
 	$Death_timer.start()
 
 
-func _on_Timer_timeout() -> void:
+func _on_Damage_timeout() -> void:
+	if $StateMachine.current_state != $StateMachine.states.DEAD:
+		$StateMachine.current_state = $StateMachine.states.MOVE
+
+
+func _on_Death_timeout() -> void:
 	PlayerData.score += score
 	queue_free()
 
@@ -80,12 +85,6 @@ func _on_Area2D_body_entered(body: Node) -> void:
 		else:
 			# The player will be knocked in the opposite direction to their movement
 			body.take_damage(damage, -1 * body._velocity)
-
-
-func _on_Damage_timeout() -> void:
-	if $StateMachine.current_state != $StateMachine.states.DEAD:
-		$StateMachine.current_state = $StateMachine.states.MOVE
-
 
 func _on_screen_entered() -> void:
 	$StateMachine.current_state = $StateMachine.states.MOVE

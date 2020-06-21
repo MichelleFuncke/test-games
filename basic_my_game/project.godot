@@ -14,14 +14,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/actors/Actor.gd"
 }, {
-"base": "KinematicBody2D",
-"class": "ActorEnemy",
+"base": "Node",
+"class": "StateMachine",
 "language": "GDScript",
-"path": "res://src/actors/Actor_Enemy.gd"
+"path": "res://src/actors/StateMachine.gd"
+}, {
+"base": "Area2D",
+"class": "Weapon",
+"language": "GDScript",
+"path": "res://src/objects/Weapon.gd"
 } ]
 _global_script_class_icons={
 "Actor": "",
-"ActorEnemy": ""
+"StateMachine": "",
+"Weapon": ""
 }
 
 [application]
