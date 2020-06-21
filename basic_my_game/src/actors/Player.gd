@@ -1,7 +1,7 @@
 extends Actor
 
-const FIREBALL = preload("res://src/objects/Fireball.tscn")
-const SWORD = preload("res://src/objects/Sword.tscn")
+const FIREBALL = preload("res://src/objects/weapons/Fireball.tscn")
+const SWORD = preload("res://src/objects/weapons/Sword.tscn")
 var was_on_ground: = true
 var jump_count: = 0
 var is_jump_interrupted: = false

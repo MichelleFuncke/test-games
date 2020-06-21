@@ -1,7 +1,7 @@
 extends Area2D
 
 onready var Machine = $States
-const CROWN = preload("res://src/objects/Crown.tscn")
+const CROWN = preload("res://src/objects/treasure/Crown.tscn")
 
 
 func _physics_process(delta: float) -> void:

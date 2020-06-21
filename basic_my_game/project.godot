@@ -22,7 +22,7 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "Weapon",
 "language": "GDScript",
-"path": "res://src/objects/Weapon.gd"
+"path": "res://src/objects/weapons/Weapon.gd"
 } ]
 _global_script_class_icons={
 "Actor": "",

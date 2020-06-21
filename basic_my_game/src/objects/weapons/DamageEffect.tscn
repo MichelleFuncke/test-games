@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/sprites/2.png" type="Texture" id=1]
-[ext_resource path="res://src/objects/DamageEffect.gd" type="Script" id=2]
+[ext_resource path="res://src/objects/weapons/DamageEffect.gd" type="Script" id=2]
+
 
 [node name="Damage" type="Sprite"]
 modulate = Color( 1, 0, 0, 0.486275 )

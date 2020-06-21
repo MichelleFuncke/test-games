@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/levels/sheet.png" type="Texture" id=1]
-[ext_resource path="res://src/objects/Chest.gd" type="Script" id=2]
-[ext_resource path="res://src/objects/ChestSM.gd" type="Script" id=3]
+[ext_resource path="res://src/objects/treasure/Chest.gd" type="Script" id=2]
+[ext_resource path="res://src/objects/treasure/ChestSM.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 6 )
