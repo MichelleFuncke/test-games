@@ -77,7 +77,9 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 0.5, 0.5 ) ]
 }
 
-[node name="Crown" type="Area2D"]
+[node name="Crown" type="Area2D" groups=[
+"Coin",
+]]
 collision_layer = 4
 script = ExtResource( 2 )
 __meta__ = {

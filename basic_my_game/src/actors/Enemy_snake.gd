@@ -7,7 +7,10 @@ export var speed: = Vector2(50.0, 0.0)
 export var max_health: = 100
 export var bounce: = 200.0
 var _health : = max_health
+var _is_immune: = false
 var _velocity: = Vector2.ZERO
+var weapon = null
+var weapon_path = ""
 
 
 func _ready() -> void:
@@ -19,6 +22,9 @@ func _physics_process(delta: float) -> void:
 	if $StateMachine.current_state != null:
 		$state.text = $StateMachine.states.keys()[$StateMachine.current_state]
 	
+		if Input.is_action_just_pressed("Debug"):
+			$state.visible = not $state.visible
+
 
 func take_damage(damage: int, direction: Vector2) -> void:
 	# Don't want to take damage if it's already dead
@@ -70,6 +76,9 @@ func _on_Death_timeout() -> void:
 
 
 func _on_Area2D_body_entered(body: Node) -> void:
+	if $StateMachine.current_state == $StateMachine.states.DEAD:
+		return
+	
 	if "Player" in body.name:
 		if body._velocity.x == 0:
 			body.take_damage(damage, _velocity)

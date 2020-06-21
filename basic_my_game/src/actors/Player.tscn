@@ -249,6 +249,9 @@ __meta__ = {
 speed = Vector2( 100, 500 )
 climb_speed = 100.0
 
+[node name="MeleePosition" type="Position2D" parent="."]
+position = Vector2( 7, 11 )
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 21 )
 animation = "idle"
@@ -257,7 +260,7 @@ animation = "idle"
 position = Vector2( 0, 5 )
 shape = SubResource( 22 )
 
-[node name="Position2D" type="Position2D" parent="."]
+[node name="FireballPosition" type="Position2D" parent="."]
 position = Vector2( 11, 6 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -285,6 +288,9 @@ one_shot = true
 [node name="Immune_timer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="Attack_timer" type="Timer" parent="."]
+wait_time = 0.5
 
 [node name="ObjectDetector" type="Area2D" parent="."]
 collision_mask = 2
@@ -330,3 +336,4 @@ script = ExtResource( 5 )
 [connection signal="timeout" from="Death_timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="Damage_timer" to="." method="_on_Damage_timeout"]
 [connection signal="timeout" from="Immune_timer" to="." method="_on_Immune_timeout"]
+[connection signal="timeout" from="Attack_timer" to="." method="_on_Attack_cooldown_timeout"]
