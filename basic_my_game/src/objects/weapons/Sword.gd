@@ -1,7 +1,7 @@
 extends Weapon
 
 onready var Machine = $States
-const DAMAGED_EFFECT = preload("res://src/objects/DamageEffect.tscn")
+const DAMAGED_EFFECT = preload("res://src/objects/weapons/DamageEffect.tscn")
 
 
 func _ready():
