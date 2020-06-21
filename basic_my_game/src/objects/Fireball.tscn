@@ -5,7 +5,7 @@
 [ext_resource path="res://src/objects/FireballSM.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 8 )
+extents = Vector2( 6, 6 )
 
 [sub_resource type="Animation" id=2]
 resource_name = "attack_left"
@@ -91,9 +91,6 @@ tracks/0/keys = {
 ]]
 collision_mask = 10
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_group_": true
-}
 damage = 20
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
