@@ -40,6 +40,7 @@ config/icon="res://icon.png"
 PlayerData="*res://src/autoload/PlayerData.tscn"
 WorldData="*res://src/autoload/WorldData.tscn"
 DropItems="*res://src/autoload/DropItems.tscn"
+ImportData="*res://src/autoload/ImportData.gd"
 
 [display]
 
